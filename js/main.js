@@ -8,7 +8,11 @@ var MESSAGES = ['Всё отлично!',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
-var PICTURES_NUMBERS = 25;
+var PICTURES_NUMBER = 25;
+var MIN_LIKES = 15;
+var MAX_LIKES = 200;
+var MIN_AVATAR_NUMBER = 1;
+var MAX_AVATAR_NUMBER = 6;
 
 var picturesList = document.querySelector('.pictures');
 var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -18,11 +22,11 @@ var getRandomNumber = function (min, max) {
   return Math.floor(rand);
 };
 
-var getComments = function (commentCount) {
+var createComments = function (commentCount) {
   var comments = [];
   for (var i = 0; i < commentCount; i++) {
     comments.push({
-      avatar: 'img/avatar-' + getRandomNumber(1, 6) + '.svg',
+      avatar: 'img/avatar-' + getRandomNumber(MIN_AVATAR_NUMBER, MAX_AVATAR_NUMBER) + '.svg',
       message: MESSAGES[getRandomNumber(0, MESSAGES.length)],
       name: NAMES[getRandomNumber(0, NAMES.length)]
     });
@@ -30,14 +34,14 @@ var getComments = function (commentCount) {
   return comments;
 };
 
-var getPhotos = function (photosCount) {
+var createPhotos = function (photosCount) {
   var photos = [];
   for (var i = 0; i < photosCount; i++) {
     photos.push({
       url: 'photos/' + (i + 1) + '.jpg',
       description: 'Описание фотографии',
-      likes: getRandomNumber(15, 200),
-      comments: getComments()
+      likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
+      comments: createComments()
     });
   }
   return photos;
@@ -54,7 +58,7 @@ var renderPicture = function (picture) {
 };
 
 var createPicture = function () {
-  var photos = getPhotos(PICTURES_NUMBERS);
+  var photos = createPhotos(PICTURES_NUMBER);
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < photos.length; i++) {
     fragment.appendChild(renderPicture(photos[i]));
