@@ -116,5 +116,4 @@ var renderBigPicture = function (bigPicture) {
   commentList.appendChild(createComment(bigPicture.comments));
 };
 
-
 renderBigPicture(photos[0]);
