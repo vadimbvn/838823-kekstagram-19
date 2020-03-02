@@ -15,10 +15,14 @@ var MIN_AVATAR_NUMBER = 1;
 var MAX_AVATAR_NUMBER = 6;
 var MIN_COMMENTS_NUMBER = 1;
 var MAX_COMMENTS_NUMBER = 6;
+var ESC_KEY = 27;
 var commentList = document.querySelector('.social__comments');
 var commentItem = document.querySelector('.social__comment');
 var body = document.querySelector('body');
 var bigPictureElement = document.querySelector('.big-picture');
+var imgUpload = document.querySelector('.img-upload__overlay');
+var uploadFile = document.querySelector('#upload-file');
+var uploadCancel = imgUpload.querySelector('#upload-cancel');
 
 
 var picturesList = document.querySelector('.pictures');
@@ -40,7 +44,7 @@ var bigPicturePopup = function () {
   bigPictureElement.classList.remove('hidden');
 };
 
-bigPicturePopup();
+
 
 var createComments = function (commentCount) {
   var comments = [];
@@ -116,4 +120,28 @@ var renderBigPicture = function (bigPicture) {
   commentList.appendChild(createComment(bigPicture.comments));
 };
 
-renderBigPicture(photos[0]);
+renderBigPicture(photos[6]);
+
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEY) {
+    closePopup();
+  }
+};
+
+var openPopup = function () {
+  body.classList.add('modal-open');
+  imgUpload.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function () {
+  body.classList.remove('modal-open');
+  imgUpload.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+
+};
+
+uploadFile.addEventListener('change', openPopup);
+
+uploadCancel.addEventListener('click', closePopup);
+
