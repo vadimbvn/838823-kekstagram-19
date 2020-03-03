@@ -16,6 +16,11 @@ var MAX_AVATAR_NUMBER = 6;
 var MIN_COMMENTS_NUMBER = 1;
 var MAX_COMMENTS_NUMBER = 6;
 var ESC_KEY = 27;
+var MIN_SCALE = 25;
+var MAX_SCALE = 100;
+var STEP_SCALE = 25;
+var DEFAULT_SCALE = '100%';
+var radix = 10;
 var commentList = document.querySelector('.social__comments');
 var commentItem = document.querySelector('.social__comment');
 var body = document.querySelector('body');
@@ -23,6 +28,11 @@ var bigPictureElement = document.querySelector('.big-picture');
 var imgUpload = document.querySelector('.img-upload__overlay');
 var uploadFile = document.querySelector('#upload-file');
 var uploadCancel = imgUpload.querySelector('#upload-cancel');
+var imgUploadScale = document.querySelector('.img-upload__scale');
+var scaleControlSmall = imgUploadScale.querySelector('.scale__control--smaller');
+var scaleControlBig = imgUploadScale.querySelector('.scale__control--bigger');
+var scaleControlValue = imgUploadScale.querySelector('.scale__control--value');
+var imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
 
 
 var picturesList = document.querySelector('.pictures');
@@ -144,4 +154,45 @@ var closePopup = function () {
 uploadFile.addEventListener('change', openPopup);
 
 uploadCancel.addEventListener('click', closePopup);
+
+scaleControlValue.value = DEFAULT_SCALE;
+
+var getValue = function () {
+  var scaleValue = parseInt(scaleControlValue.value, radix);
+  return scaleValue;
+};
+
+var decreaseScaleValue = function () {
+  if (getValue() > MIN_SCALE && (getValue() - STEP_SCALE) > MIN_SCALE) {
+    scaleControlValue.value = (getValue() - STEP_SCALE) + '%';
+  } else {
+    scaleControlValue.value = MIN_SCALE + '%';
+  }
+};
+
+var increaseScaleValue = function () {
+  if (getValue() < MAX_SCALE && (getValue() + STEP_SCALE) < MAX_SCALE) {
+    scaleControlValue.value = (getValue() + STEP_SCALE) + '%';
+  } else {
+    scaleControlValue.value = MAX_SCALE + '%';
+  }
+};
+
+var changeImage = function () {
+  imgUploadPreview.style.transform = 'scale(' + (parseInt(scaleControlValue.value, radix) / 100) + ')';
+};
+
+var onScaleMinusClick = function () {
+  decreaseScaleValue();
+  changeImage();
+};
+
+var onScalePlusClick = function () {
+  increaseScaleValue();
+  changeImage();
+};
+
+scaleControlSmall.addEventListener('click', onScaleMinusClick);
+
+scaleControlBig.addEventListener('click', onScalePlusClick);
 
