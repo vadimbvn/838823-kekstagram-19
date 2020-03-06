@@ -265,6 +265,8 @@ var onHashtagValidity = function () {
         hashtagInput.setCustomValidity('Хэш-тег не может состоять только из одной решётки');
       } else if (hashtagList.indexOf(hashtagList[i]) !== i) {
         hashtagInput.setCustomValidity('Один и тото же хэш-тег не может быть использован дважды');
+      } else if (hashtagList[i].length > MAX_HASHTAG_LENGTH) {
+        hashtagInput.setCustomValidity('Максимальная длина одного хэш-тега 20 символов, включая #');
       } else if (hashtagList[i].split('#').length > 2) {
         hashtagInput.setCustomValidity('Хэш-теги должны быть разделены пробелами');
       } else {
