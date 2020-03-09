@@ -177,8 +177,11 @@ bigPictureCancel.addEventListener('click', bigPictureClosePopup);
 
 var onPopupEscPress = function (evt) {
   if (evt.keyCode === ESC_KEY) {
-    closePopup();
-    bigPictureClosePopup();
+    var activeInput = document.activeElement;
+    if (!activeInput.classList.contains('text__hashtags') && !activeInput.classList.contains('text__description')) {
+      closePopup();
+      bigPictureClosePopup();
+    }
   }
 };
 
@@ -194,7 +197,6 @@ var closePopup = function () {
   imgUploadOverlay.classList.add('hidden');
   uploadFile.value = '';
   document.removeEventListener('keydown', onPopupEscPress);
-
 };
 
 uploadFile.addEventListener('change', openPopup);
