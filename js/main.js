@@ -84,9 +84,11 @@ var createPhotos = function (photosCount) {
   return photos;
 };
 
-var renderPicture = function (picture) {
+var renderPicture = function (picture, pictureIndex, index) {
   var pictureElement = pictureTemplate.cloneNode(true);
 
+  pictureElement.dataset.class = index;
+  pictureElement.querySelector('.picture__img').dataset.id = pictureIndex;
   pictureElement.querySelector('.picture__img').src = picture.url;
   pictureElement.querySelector('.picture__likes').textContent = picture.likes;
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
@@ -99,7 +101,7 @@ var photos = createPhotos(PICTURES_NUMBER);
 var createPicture = function () {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < photos.length; i++) {
-    fragment.appendChild(renderPicture(photos[i]));
+    fragment.appendChild(renderPicture(photos[i], i, i));
   }
   picturesList.appendChild(fragment);
 };
@@ -113,6 +115,7 @@ var renderComment = function (comment) {
   commentElement.querySelector('.social__picture').alt = comment.name;
   commentElement.querySelector('.social__text').textContent = comment.message;
 
+  commentList.innerHTML = '';
   return commentElement;
 };
 
@@ -146,26 +149,19 @@ var bigPictureClosePopup = function () {
   document.removeEventListener('keydown', onPopupEscPress);
 };
 
-var indicateBigPicture = function (src) {
-  for (var i = 0; i < photos.length; i++) {
-    if (src === photos[i].url) {
-      bigPictureOpenPopup();
-      renderBigPicture(photos[i]);
-    }
-  }
-};
-
 var onBigPictureClick = function (evt) {
   if (evt.target.tagName.toLowerCase() === 'img') {
-    var bigPictureActive = evt.target.attributes.src.value;
-    indicateBigPicture(bigPictureActive);
+    var pictureIndex = evt.target.dataset.id;
+    renderBigPicture(photos[pictureIndex]);
+    bigPictureOpenPopup();
   }
 };
 
 var onPopupEnterPress = function (evt) {
   if (evt.keyCode === ENTER_KEY) {
-    var bigPictureActive = evt.target.children[0].attributes.src.value;
-    indicateBigPicture(bigPictureActive);
+    var index = evt.target.children[0].dataset.id;
+    renderBigPicture(photos[index]);
+    bigPictureOpenPopup();
   }
 };
 
