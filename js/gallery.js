@@ -5,14 +5,13 @@
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-  var renderPicture = function (picture, pictureIndex, index) {
+  var renderPicture = function (picture, pictureIndex) {
     var pictureElement = pictureTemplate.cloneNode(true);
 
     pictureElement.querySelector('.picture__img').dataset.id = pictureIndex;
     pictureElement.querySelector('.picture__img').src = picture.url;
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
-    pictureElement.dataset.id = index;
 
     return pictureElement;
   };
@@ -38,9 +37,9 @@
   };
 
   var onPopupEnterPress = function (evt) {
-    if (evt.keyCode === window.util.KEYCODE.ENTER_KEY) {
-      var index = evt.target.children[0].dataset.id;
-      window.picture.renderBigPicture(photos[index]);
+    if (evt.keyCode === window.util.KeyCode.ENTER_KEY) {
+      var pictureIndex = evt.target.children[0].dataset.id;
+      window.picture.renderBigPicture(photos[pictureIndex]);
       window.picture.bigPictureOpenPopup();
     }
   };

@@ -10,7 +10,7 @@
   var scaleControlValue = document.querySelector('.scale__control--value');
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.util.KEYCODE.ESC_KEY) {
+    if (evt.keyCode === window.util.KeyCode.ESC_KEY) {
       var activeInput = document.activeElement;
       if (!activeInput.classList.contains('text__hashtags') && !activeInput.classList.contains('text__description')) {
         closePopup();

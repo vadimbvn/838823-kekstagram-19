@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var KEYCODE = {
+  var KeyCode = {
     ESC_KEY: 27,
     ENTER_KEY: 13
   };
@@ -13,6 +13,6 @@
 
   window.util = {
     getRandomNumber: getRandomNumber,
-    KEYCODE: KEYCODE
+    KeyCode: KeyCode
   };
 })();

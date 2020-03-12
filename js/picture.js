@@ -42,7 +42,7 @@
   };
 
   var onPopupEscPress = function (evt) {
-    if (evt.keyCode === window.util.KEYCODE.ESC_KEY) {
+    if (evt.keyCode === window.util.KeyCode.ESC_KEY) {
       bigPictureClosePopup();
     }
   };
