@@ -26,6 +26,7 @@
     document.addEventListener('keydown', onPopupEscPress);
     scaleControlValue.setAttribute('value', '100%');
     effectLevelPin.addEventListener('mousedown', window.slider.coordinateSliderPin);
+    window.effect.setDefaultFilter();
   };
 
   var closePopup = function () {

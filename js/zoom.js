@@ -4,7 +4,6 @@
   var MIN_SCALE = 25;
   var MAX_SCALE = 100;
   var STEP_SCALE = 25;
-  var radix = 10;
   var imgUploadForm = document.querySelector('.img-upload__form');
   var imgUploadPreview = imgUploadForm.querySelector('.img-upload__preview');
   var imgUploadScale = imgUploadForm.querySelector('.img-upload__scale');
@@ -13,7 +12,7 @@
   var scaleControlValue = imgUploadScale.querySelector('.scale__control--value');
 
   var getValue = function () {
-    var scaleValue = parseInt(scaleControlValue.value, radix);
+    var scaleValue = parseInt(scaleControlValue.value, 10);
     return scaleValue;
   };
 
@@ -28,7 +27,7 @@
   };
 
   var changeImage = function () {
-    imgUploadPreview.style.transform = 'scale(' + (parseInt(scaleControlValue.value, radix) / 100) + ')';
+    imgUploadPreview.style.transform = 'scale(' + (parseInt(scaleControlValue.value, 10) / 100) + ')';
   };
 
   var onScaleMinusClick = function () {
