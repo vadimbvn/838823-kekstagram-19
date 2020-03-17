@@ -25,8 +25,8 @@
     effectLevel.classList.add('hidden');
     document.addEventListener('keydown', onPopupEscPress);
     scaleControlValue.setAttribute('value', '100%');
-    effectLevelPin.addEventListener('mousedown', window.slider.coordinateSliderPin);
     window.effect.setDefaultFilter();
+    effectLevelPin.addEventListener('mousedown', window.slider.coordinateSliderPin);
   };
 
   var closePopup = function () {
