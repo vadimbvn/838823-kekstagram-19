@@ -4,6 +4,9 @@
   var PICTURES_NUMBER = 25;
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  var fragmentDocument = document.createDocumentFragment();
+  var main = document.querySelector('main');
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
   var renderPicture = function (picture, pictureIndex) {
     var pictureElement = pictureTemplate.cloneNode(true);
@@ -16,22 +19,35 @@
     return pictureElement;
   };
 
-  var photos = window.data.createPhotos(PICTURES_NUMBER);
-
-  var createPicture = function () {
+  var createPicture = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
+    for (var i = 0; i < PICTURES_NUMBER; i++) {
       fragment.appendChild(renderPicture(photos[i], i));
     }
-    picturesList.appendChild(fragment);
+    return fragment;
   };
 
-  createPicture();
+  var loadPhotosData = [];
+
+  var renderLoadPicture = function (photos) {
+    loadPhotosData = photos.slice();
+    picturesList.appendChild(createPicture(loadPhotosData));
+  };
+
+  var errorHandler = function (errorMessage) {
+    var newError = errorTemplate.cloneNode(true);
+    newError.querySelector('.error__title').textContent = errorMessage;
+    newError.querySelector('button').textContent = 'Перезагрузите страницу';
+    fragmentDocument.appendChild(newError);
+    main.appendChild(fragmentDocument);
+  };
+
+  window.load.inquiryData(renderLoadPicture, errorHandler);
 
   var onBigPictureClick = function (evt) {
     if (evt.target.tagName.toLowerCase() === 'img') {
       var pictureIndex = evt.target.dataset.id;
-      window.picture.renderBigPicture(photos[pictureIndex]);
+      window.picture.renderBigPicture(loadPhotosData[pictureIndex]);
       window.picture.bigPictureOpenPopup();
     }
   };
@@ -39,7 +55,7 @@
   var onPopupEnterPress = function (evt) {
     if (evt.keyCode === window.util.KeyCode.ENTER_KEY) {
       var pictureIndex = evt.target.children[0].dataset.id;
-      window.picture.renderBigPicture(photos[pictureIndex]);
+      window.picture.renderBigPicture(loadPhotosData[pictureIndex]);
       window.picture.bigPictureOpenPopup();
     }
   };
