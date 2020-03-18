@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var PICTURES_NUMBER = 25;
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var fragmentDocument = document.createDocumentFragment();
@@ -21,7 +20,7 @@
 
   var createPicture = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < PICTURES_NUMBER; i++) {
+    for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPicture(photos[i], i));
     }
     return fragment;
@@ -42,7 +41,7 @@
     main.appendChild(fragmentDocument);
   };
 
-  window.load.inquiryData(renderLoadPicture, errorHandler);
+  window.load.requestData(renderLoadPicture, errorHandler);
 
   var onBigPictureClick = function (evt) {
     if (evt.target.tagName.toLowerCase() === 'img') {

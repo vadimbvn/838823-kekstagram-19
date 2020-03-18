@@ -7,7 +7,7 @@
   };
   var TIMEOUT_IN_MS = 10000;
 
-  var inquiryData = function (onSuccess, onError) {
+  var requestData = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -27,13 +27,13 @@
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    xhr.timeout = TIMEOUT_IN_MS;
-
     xhr.open('GET', URL);
     xhr.send();
+
+    xhr.timeout = TIMEOUT_IN_MS;
   };
 
   window.load = {
-    inquiryData: inquiryData
+    requestData: requestData
   };
 })();
