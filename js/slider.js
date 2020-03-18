@@ -4,7 +4,7 @@
 
   var imgUploadForm = document.querySelector('.img-upload__form');
   var imgEffectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
-  var effectLevelPin = imgEffectLevel.querySelector('.effect-level__pin');
+  var effectLevelPin = document.querySelector('.effect-level__pin');
   var effectLevelValue = imgEffectLevel.querySelector('.effect-level__value');
   var effectLevelLine = imgEffectLevel.querySelector('.effect-level__line');
   var effectLevelDepth = imgEffectLevel.querySelector('.effect-level__depth');
