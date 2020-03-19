@@ -41,7 +41,8 @@
     main.appendChild(fragmentDocument);
   };
 
-  window.load.requestData(renderLoadPicture, errorHandler);
+
+  window.backend.requestData(renderLoadPicture, errorHandler);
 
   var onBigPictureClick = function (evt) {
     if (evt.target.tagName.toLowerCase() === 'img') {
@@ -62,5 +63,4 @@
   picturesList.addEventListener('click', onBigPictureClick);
 
   picturesList.addEventListener('keydown', onPopupEnterPress);
-
 })();
