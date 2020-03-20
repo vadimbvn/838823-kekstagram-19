@@ -1,10 +1,8 @@
 'use strict';
 
 (function () {
-  var PICTURES_NUMBER = 25;
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-  var fragmentDocument = document.createDocumentFragment();
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
@@ -21,7 +19,7 @@
 
   var createPicture = function (photos) {
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < PICTURES_NUMBER; i++) {
+    for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPicture(photos[i], i));
     }
     return fragment;
@@ -38,11 +36,11 @@
     var newError = errorTemplate.cloneNode(true);
     newError.querySelector('.error__title').textContent = errorMessage;
     newError.querySelector('button').textContent = 'Перезагрузите страницу';
-    fragmentDocument.appendChild(newError);
-    main.appendChild(fragmentDocument);
+    main.appendChild(newError);
   };
 
-  window.load.inquiryData(renderLoadPicture, errorHandler);
+
+  window.backend.requestData(renderLoadPicture, errorHandler);
 
   var onBigPictureClick = function (evt) {
     if (evt.target.tagName.toLowerCase() === 'img') {
@@ -63,5 +61,4 @@
   picturesList.addEventListener('click', onBigPictureClick);
 
   picturesList.addEventListener('keydown', onPopupEnterPress);
-
 })();
