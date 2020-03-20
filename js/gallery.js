@@ -3,7 +3,6 @@
 (function () {
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
-  var fragmentDocument = document.createDocumentFragment();
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
 
@@ -37,8 +36,7 @@
     var newError = errorTemplate.cloneNode(true);
     newError.querySelector('.error__title').textContent = errorMessage;
     newError.querySelector('button').textContent = 'Перезагрузите страницу';
-    fragmentDocument.appendChild(newError);
-    main.appendChild(fragmentDocument);
+    main.appendChild(newError);
   };
 
 

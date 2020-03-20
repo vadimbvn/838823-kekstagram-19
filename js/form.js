@@ -8,11 +8,9 @@
   var body = document.querySelector('body');
   var effectLevel = imgUploadForm.querySelector('.img-upload__effect-level');
   var effectLevelPin = effectLevel.querySelector('.effect-level__pin');
-  var fragment = document.createDocumentFragment();
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
-
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.util.KeyCode.ESC_KEY) {
@@ -46,18 +44,20 @@
 
   var uploadSuccessHandler = function () {
     var newSuccess = successTemplate.cloneNode(true);
-    fragment.appendChild(newSuccess);
-    main.appendChild(fragment);
+    var successButton = newSuccess.querySelector('.success__button');
+    main.appendChild(newSuccess);
     closePopup();
 
     document.addEventListener('keydown', onSuccessModalEscPress);
-    document.addEventListener('click', onSuccessModalClick);
+    document.addEventListener('click', closeSuccessModal);
+    successButton.addEventListener('click', closeSuccessModal);
   };
 
   var closeSuccessModal = function () {
     var success = document.querySelector('.success');
+
     document.removeEventListener('keydown', onSuccessModalEscPress);
-    document.removeEventListener('click', onSuccessModalClick);
+    document.removeEventListener('click', closeSuccessModal);
     success.parentNode.removeChild(success);
   };
 
@@ -67,26 +67,22 @@
     }
   };
 
-  var onSuccessModalClick = function (evt) {
-    if (!evt.target.classList.contains('success__inner') && !evt.target.classList.contains('success__title')) {
-      closeSuccessModal();
-    }
-  };
-
   var errorMessage = function () {
     var newError = errorTemplate.cloneNode(true);
-    fragment.appendChild(newError);
-    main.appendChild(fragment);
+    var errorButton = newError.querySelector('.error__button');
+    main.appendChild(newError);
     closePopup();
 
     document.addEventListener('keydown', onErrorModalEscPress);
-    document.addEventListener('click', onErrorModalClick);
+    document.addEventListener('click', closeErrorModal);
+    errorButton.addEventListener('click', closeErrorModal);
   };
 
   var closeErrorModal = function () {
     var error = document.querySelector('.error');
+
     document.removeEventListener('keydown', onErrorModalEscPress);
-    document.removeEventListener('click', onErrorModalClick);
+    document.removeEventListener('click', closeErrorModal);
     error.parentNode.removeChild(error);
   };
 
@@ -96,14 +92,8 @@
     }
   };
 
-  var onErrorModalClick = function (evt) {
-    if (!evt.target.classList.contains('error__inner') && !evt.target.classList.contains('error__title')) {
-      closeErrorModal();
-    }
-  };
-
   imgUploadForm.addEventListener('submit', function (evt) {
-    window.backend.upload(new FormData(imgUploadForm), uploadSuccessHandler, errorMessage);
+    window.backend.postData(new FormData(imgUploadForm), uploadSuccessHandler, errorMessage);
     evt.preventDefault();
   });
 })();

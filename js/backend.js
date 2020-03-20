@@ -30,13 +30,13 @@
 
     xhr.open('GET', URL_LOAD);
     xhr.timeout = TIMEOUT_IN_MS;
-
     xhr.send();
   };
 
-  var upload = function (data, onSuccess, onError) {
+  var postData = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
+    xhr.open('POST', URL_UPLOAD);
+    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
@@ -45,13 +45,11 @@
         onError(xhr.response);
       }
     });
-
-    xhr.open('POST', URL_UPLOAD);
     xhr.send(data);
   };
 
   window.backend = {
     requestData: requestData,
-    upload: upload
+    postData: postData
   };
 })();
