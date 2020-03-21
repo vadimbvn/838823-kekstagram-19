@@ -9,6 +9,8 @@
   var body = document.querySelector('body');
   var commentCounter = document.querySelector('.social__comment-count');
   var commentLoader = document.querySelector('.comments-loader');
+  var commentsForRender = [];
+  var commentsTotal = [];
 
   var renderComment = function (comment) {
     var commentElement = commentItem.cloneNode(true);
@@ -34,12 +36,11 @@
     bigPictureElement.querySelector('.likes-count').textContent = bigPicture.likes;
     bigPictureElement.querySelector('.social__caption').textContent = bigPicture.description;
 
-    commentList.appendChild(loadMoreComments(bigPicture.comments));
+    commentsTotal = bigPicture.comments.slice();
+    commentList.appendChild(renderComments(bigPicture.comments));
   };
 
-  var commentsForRender = [];
-
-  var loadMoreComments = function (arr) {
+  var renderComments = function (arr) {
     if (arr.length <= MAX_COMMENTS_TO_SHOW) {
       commentsForRender = createComment(arr);
 
@@ -47,37 +48,36 @@
       commentCounter.textContent = arr.length + ' из ' + arr.length + ' комментариев';
 
     } else {
-      var arrCopy = arr.slice();
-      var slicedArr = arrCopy.slice(0, MAX_COMMENTS_TO_SHOW);
+      var slicedArr = commentsTotal.slice(0, MAX_COMMENTS_TO_SHOW);
 
       commentsForRender = createComment(slicedArr);
-
-      commentLoader.classList.remove('visually-hidden');
+      commentLoader.classList.remove('hidden');
       commentCounter.textContent = slicedArr.length + ' из ' + arr.length + ' комментариев';
     }
-
-    commentLoader.addEventListener('click', function () {
-      var totalCommentsCount = arr.length;
-      var countOfShowedComments = commentList.querySelectorAll('.social__comment').length;
-
-      var needToLoadCommentsCount = totalCommentsCount - countOfShowedComments;
-
-      if (needToLoadCommentsCount > MAX_COMMENTS_TO_SHOW) {
-        commentsForRender = arrCopy.slice(0, countOfShowedComments + MAX_COMMENTS_TO_SHOW);
-
-      } else if (needToLoadCommentsCount < MAX_COMMENTS_TO_SHOW) {
-        needToLoadCommentsCount = MAX_COMMENTS_TO_SHOW;
-        commentsForRender = arrCopy;
-
-        commentLoader.classList.add('visually-hidden');
-      }
-
-      commentCounter.textContent = commentsForRender.length + ' из ' + arr.length + ' комментариев';
-      commentList.appendChild(createComment(commentsForRender));
-    });
-
     return commentsForRender;
   };
+
+  var loadMoreComments = function (arrComments) {
+    var totalCommentsCount = arrComments.length;
+    var countOfShowedComments = commentList.querySelectorAll('.social__comment').length;
+    commentsForRender = createComment(arrComments);
+
+    var needToLoadCommentsCount = totalCommentsCount - countOfShowedComments;
+    if (needToLoadCommentsCount > MAX_COMMENTS_TO_SHOW) {
+      commentsForRender = commentsTotal.slice(0, countOfShowedComments + MAX_COMMENTS_TO_SHOW);
+    } else if (needToLoadCommentsCount <= MAX_COMMENTS_TO_SHOW) {
+      commentLoader.classList.add('hidden');
+      needToLoadCommentsCount = MAX_COMMENTS_TO_SHOW;
+      commentsForRender = commentsTotal;
+    }
+
+    commentCounter.textContent = commentsForRender.length + ' из ' + arrComments.length + ' комментариев';
+    commentList.appendChild(createComment(commentsForRender));
+  };
+
+  commentLoader.addEventListener('click', function () {
+    loadMoreComments(commentsTotal);
+  });
 
   var onPopupEscPress = function (evt) {
     if (evt.keyCode === window.util.KeyCode.ESC_KEY) {
