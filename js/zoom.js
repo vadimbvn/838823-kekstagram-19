@@ -5,7 +5,7 @@
   var MAX_SCALE = 100;
   var STEP_SCALE = 25;
   var imgUploadForm = document.querySelector('.img-upload__form');
-  var imgUploadPreview = imgUploadForm.querySelector('.img-upload__preview');
+  var imgUploadPreview = imgUploadForm.querySelector('.img-upload__preview img');
   var imgUploadScale = imgUploadForm.querySelector('.img-upload__scale');
   var scaleControlSmall = imgUploadScale.querySelector('.scale__control--smaller');
   var scaleControlBig = imgUploadScale.querySelector('.scale__control--bigger');

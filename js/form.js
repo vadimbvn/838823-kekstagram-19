@@ -27,7 +27,7 @@
     effectLevel.classList.add('hidden');
     document.addEventListener('keydown', onPopupEscPress);
     window.effect.setDefaultFilter();
-    effectLevelPin.addEventListener('mousedown', window.slider.coordinateSliderPin);
+    effectLevelPin.addEventListener('mousedown', window.slider.onCoordinateSliderPin);
   };
 
   var closePopup = function () {
@@ -35,14 +35,14 @@
     imgUploadOverlay.classList.add('hidden');
     uploadFile.value = '';
     document.removeEventListener('keydown', onPopupEscPress);
-    effectLevelPin.removeEventListener('mousedown', window.slider.coordinateSliderPin);
+    effectLevelPin.removeEventListener('mousedown', window.slider.onCoordinateSliderPin);
   };
 
   uploadFile.addEventListener('change', openPopup);
 
   uploadCancel.addEventListener('click', closePopup);
 
-  var uploadSuccessHandler = function () {
+  var onSuccess = function () {
     var newSuccess = successTemplate.cloneNode(true);
     var successButton = newSuccess.querySelector('.success__button');
     main.appendChild(newSuccess);
@@ -55,9 +55,11 @@
 
   var closeSuccessModal = function () {
     var success = document.querySelector('.success');
+    var successButton = success.querySelector('.success__button');
 
     document.removeEventListener('keydown', onSuccessModalEscPress);
     document.removeEventListener('click', closeSuccessModal);
+    successButton.removeEventListener('click', closeSuccessModal);
     success.parentNode.removeChild(success);
   };
 
@@ -67,7 +69,7 @@
     }
   };
 
-  var errorMessage = function () {
+  var onErrorLoad = function () {
     var newError = errorTemplate.cloneNode(true);
     var errorButton = newError.querySelector('.error__button');
     main.appendChild(newError);
@@ -80,9 +82,11 @@
 
   var closeErrorModal = function () {
     var error = document.querySelector('.error');
+    var errorButton = error.querySelector('.error__button');
 
     document.removeEventListener('keydown', onErrorModalEscPress);
     document.removeEventListener('click', closeErrorModal);
+    errorButton.removeEventListener('click', closeErrorModal);
     error.parentNode.removeChild(error);
   };
 
@@ -93,7 +97,7 @@
   };
 
   imgUploadForm.addEventListener('submit', function (evt) {
-    window.backend.postData(new FormData(imgUploadForm), uploadSuccessHandler, errorMessage);
+    window.backend.postData(new FormData(imgUploadForm), onSuccess, onErrorLoad);
     evt.preventDefault();
   });
 })();

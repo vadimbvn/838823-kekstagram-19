@@ -3,8 +3,10 @@
 (function () {
   var picturesList = document.querySelector('.pictures');
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  var imgFilters = document.querySelector('.img-filters');
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+
 
   var renderPicture = function (picture, pictureIndex) {
     var pictureElement = pictureTemplate.cloneNode(true);
@@ -30,20 +32,20 @@
   var renderLoadPicture = function (photos) {
     loadPhotosData = photos.slice();
     picturesList.appendChild(createPicture(loadPhotosData));
+    imgFilters.classList.remove('img-filters--inactive');
   };
 
-  var errorHandler = function (errorMessage) {
+  var onErrorHandler = function (errorMessage) {
     var newError = errorTemplate.cloneNode(true);
     newError.querySelector('.error__title').textContent = errorMessage;
     newError.querySelector('button').textContent = 'Перезагрузите страницу';
     main.appendChild(newError);
   };
 
-
-  window.backend.requestData(renderLoadPicture, errorHandler);
+  window.backend.requestData(renderLoadPicture, onErrorHandler);
 
   var onBigPictureClick = function (evt) {
-    if (evt.target.tagName.toLowerCase() === 'img') {
+    if (evt.target.classList.contains('picture__img')) {
       var pictureIndex = evt.target.dataset.id;
       window.picture.renderBigPicture(loadPhotosData[pictureIndex]);
       window.picture.bigPictureOpenPopup();
@@ -51,7 +53,7 @@
   };
 
   var onPopupEnterPress = function (evt) {
-    if (evt.keyCode === window.util.KeyCode.ENTER_KEY) {
+    if (evt.keyCode === window.util.KeyCode.ENTER_KEY && evt.target.classList.contains('picture')) {
       var pictureIndex = evt.target.children[0].dataset.id;
       window.picture.renderBigPicture(loadPhotosData[pictureIndex]);
       window.picture.bigPictureOpenPopup();
@@ -61,4 +63,8 @@
   picturesList.addEventListener('click', onBigPictureClick);
 
   picturesList.addEventListener('keydown', onPopupEnterPress);
+
+  window.gallery = {
+    renderLoadPicture: renderLoadPicture
+  };
 })();

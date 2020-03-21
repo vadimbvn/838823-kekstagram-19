@@ -9,11 +9,6 @@
   var hashtagInput = hashtagFieldset.querySelector('input[name=hashtags]');
   var commentsField = imgUploadForm.querySelector('.text__description');
 
-  var onImgUploadFormSumbit = function (evt) {
-    evt.preventDefault();
-    imgUploadForm.submit();
-  };
-
   var onHashtagValidity = function () {
     var hashtagInputContent = hashtagInput.value;
     var lowerCaseHashtag = hashtagInputContent.toLowerCase();
@@ -51,8 +46,6 @@
   };
 
   hashtagInput.addEventListener('input', onHashtagValidity);
-
-  imgUploadForm.addEventListener('sumbit', onImgUploadFormSumbit);
 
   commentsField.addEventListener('change', onCommentsFieldChange);
 })();

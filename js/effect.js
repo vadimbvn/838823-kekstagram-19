@@ -54,7 +54,7 @@
   });
 
   window.effect = {
-    change: onPhotoEffectsChange,
+    onChange: onPhotoEffectsChange,
     setDefaultFilter: setDefaultFilter
   };
 })();

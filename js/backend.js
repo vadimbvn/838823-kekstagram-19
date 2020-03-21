@@ -8,9 +8,9 @@
   };
   var TIMEOUT_IN_MS = 10000;
 
-  var requestData = function (onSuccess, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
+  var processResponse = function (xhr, onSuccess, onError) {
+
+    xhr.timeout = TIMEOUT_IN_MS;
 
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
@@ -27,24 +27,21 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
+  };
 
+  var requestData = function (onSuccess, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    processResponse(xhr, onSuccess, onError);
     xhr.open('GET', URL_LOAD);
-    xhr.timeout = TIMEOUT_IN_MS;
     xhr.send();
   };
 
   var postData = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', URL_UPLOAD);
-    xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-      } else {
-        onError(xhr.response);
-      }
-    });
+    xhr.responseType = 'json';
+    processResponse(xhr, onSuccess, onError);
     xhr.send(data);
   };
 
