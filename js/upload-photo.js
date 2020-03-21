@@ -7,7 +7,6 @@
   var uploadFile = document.querySelector('#upload-file');
   var previewImg = document.querySelector('.img-upload__preview img');
 
-
   uploadFile.addEventListener('change', function () {
     var file = uploadFile.files[0];
     var fileName = file.name.toLowerCase();
