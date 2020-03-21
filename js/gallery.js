@@ -5,6 +5,7 @@
   var pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var imgFilters = document.querySelector('.img-filters');
 
   var renderPicture = function (picture, pictureIndex) {
     var pictureElement = pictureTemplate.cloneNode(true);
@@ -22,6 +23,7 @@
     for (var i = 0; i < photos.length; i++) {
       fragment.appendChild(renderPicture(photos[i], i));
     }
+
     return fragment;
   };
 
@@ -30,6 +32,7 @@
   var renderLoadPicture = function (photos) {
     loadPhotosData = photos.slice();
     picturesList.appendChild(createPicture(loadPhotosData));
+    imgFilters.classList.remove('img-filters--inactive');
   };
 
   var errorHandler = function (errorMessage) {
@@ -50,6 +53,7 @@
     }
   };
 
+
   var onPopupEnterPress = function (evt) {
     if (evt.keyCode === window.util.KeyCode.ENTER_KEY) {
       var pictureIndex = evt.target.children[0].dataset.id;
@@ -61,4 +65,8 @@
   picturesList.addEventListener('click', onBigPictureClick);
 
   picturesList.addEventListener('keydown', onPopupEnterPress);
+
+  window.gallery = {
+    renderLoadPicture: renderLoadPicture
+  };
 })();
