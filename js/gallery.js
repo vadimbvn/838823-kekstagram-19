@@ -35,14 +35,14 @@
     imgFilters.classList.remove('img-filters--inactive');
   };
 
-  var onErrorHandler = function (errorMessage) {
+  var onErrorMessage = function (message) {
     var newError = errorTemplate.cloneNode(true);
-    newError.querySelector('.error__title').textContent = errorMessage;
+    newError.querySelector('.error__title').textContent = message;
     newError.querySelector('button').textContent = 'Перезагрузите страницу';
     main.appendChild(newError);
   };
 
-  window.backend.requestData(renderLoadPicture, onErrorHandler);
+  window.backend.requestData(renderLoadPicture, onErrorMessage);
 
   var onBigPictureClick = function (evt) {
     if (evt.target.classList.contains('picture__img')) {
