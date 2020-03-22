@@ -6,6 +6,7 @@
   var imgFilters = document.querySelector('.img-filters');
   var main = document.querySelector('main');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  var loadPhotosData = [];
 
 
   var renderPicture = function (picture, pictureIndex) {
@@ -26,8 +27,6 @@
     }
     return fragment;
   };
-
-  var loadPhotosData = [];
 
   var renderLoadPicture = function (photos) {
     loadPhotosData = photos.slice();
